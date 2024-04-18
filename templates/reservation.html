@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load custom %}
+
+{% block content %}
+<section id="reservation_cal">
+    <h6 class="b_bottom">予約カレンダー</h6>
+    <p class="bold mt-3 mb-0">{{ start_day.year }}年{{ start_day.month }}月</p>
+    <p>{{ start_day }} - {{ end_day }}</p>
+    <div class="table_layout">
+        <table class="text-center">
+            <tr>
+                <td><a href="{% url 'reservation' pk=restaurant.id year=before.year month=before.month day=before.day %}">前週</a></td>
+                {% for day in days %}
+                    <th>{{ day | date:"d(D)" }}</th>
+                {% endfor %}
+                <td><a href="{% url 'reservation' pk=restaurant.id year=next.year month=next.month day=next.day %}">次週</a></td>
+            </tr>
+            {% for hour, schedules in calendar.items %}
+                <tr style="font-size:12px">
+                    <td>
+                        {{ hour }}:00
+                    </td>
+                    {% for dt, book in schedules.items %}
+                        <td>
+                            {% if dt <= today %}
+                                -
+                            {% elif book.0 %}
+                                {% check_rsv_bool book.1 max_seat_num as bool %}
+                                {% if bool %}
+                                <a href="{% url 'create_reserve' pk=restaurant.id date=dt time=hour %}">{{ book.1 | check_rsv:max_seat_num }}</a>
+                                {% else %}
+                                {{ book.1 | check_rsv:max_seat_num }}
+                                {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    <td>
+                        {{ hour }}:00
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
+{% endblock content %}

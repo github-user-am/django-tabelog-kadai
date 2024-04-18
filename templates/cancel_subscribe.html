@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <p>{{ message }}</p>
+    <p>有料会員登録を解約してよろしいですか?</p>
+    <form action="{% url 'cancel_subscribe' %}" method="POST">
+        {% csrf_token %}
+        <div class="wrapper_btn_row fit_btn">
+            <button type="submit" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm" name="btn_ok">解約</button>
+            <button type="submit" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm" name="btn_cancel">キャンセル</button>
+        </div>
+    </form>
+</section>
+{% endblock content %}

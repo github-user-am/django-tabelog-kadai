@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="form_class w-100 m-auto">
+    <form method="POST">
+        {% csrf_token %}
+        <h1 class="h5 mb-3 fw-normal">無料会員登録</h1>
+        <div class="form-floating mb-3">
+            {{ form.email | add_class:"form-control" }}
+            <label for="floatingInput">メールアドレス</label>
+            <span class="form_error_msg">{{ form.email.errors }}</span>
+        </div>
+        <div class="form-floating mb-3">
+            {{ form.nickname | add_class:"form-control" }}
+            <label for="floatingInput">ニックネーム</label>
+            <span class="form_error_msg">{{ form.nickname.errors }}</span>
+        </div>
+        <div class="form-floating mb-3">
+            {{ form.password | add_class:"form-control" }}
+            <label for="floatingPassword">パスワード</label>
+        </div>
+        <div class="form-floating mb-3">
+            {{ form.confirm_password | add_class:"form-control" }}
+            <label for="floatingPassword">パスワード(確認)</label>
+            <span class="form_error_msg">{{ form.confirm_password.errors }}</span>
+        </div>
+        <button class="btn btn-dark w-100 py-2" type="submit">登録</button>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <section>
+    <h6 class="b_bottom">{{ request.user.get_nickname }}さんのマイページ</h6>
+    <div class="mt-3">
+      <table class="table">
+        {% if is_subscriber %}
+        <tr><td>会員種別</td><td>有料会員</td></tr>
+        {% else %}
+        <tr><td>会員種別</td><td>無料会員</td></tr>
+        {% endif %}
+        <tr><td>最終ログイン</td><td>{{ user.last_login|date:"Y-m-d H:i:s" }}</td></tr>
+    </table>
+    </div>
+    <div class="mt-3">
+      <ul id="mypage_btn" style="list-style: none; padding-left: 0;">
+        <li>
+          <a href="{% url 'user_info' %}" class="link-btn">
+          <img src="/static/account.svg">
+          <p>会員情報</p>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'change_password' %}" class="link-btn">
+          <img src="/static/password.svg">
+          <p>パスワード変更</p>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'list_favorite' %}" class="link-btn">
+          <img src="/static/favorite.svg">
+          <p>お気に入り</p>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'list_reservation' %}" class="link-btn">
+          <img src="/static/booking.svg">
+          <p>予約一覧</p>
+          </a>
+        </li>
+        {% if is_subscriber %}
+        <li>
+          <a href="{% url 'confirm_cancel_subscribe' %}" class="link-btn">
+          <img src="/static/signout.svg">
+          <p>有料会員登録解除</p>
+          </a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{% url 'confirm_subscribe' %}" class="link-btn">
+          <img src="/static/signup.svg">
+          <p>有料会員登録</p>
+          </a>
+        </li>
+        {% endif %}
+        <li>
+          <a href="{% url 'cancel_account' %}" class="link-btn">
+          <img src="/static/signout.svg">
+          <p>退会</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+{% endblock content %}

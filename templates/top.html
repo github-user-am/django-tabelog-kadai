@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% load custom %}
+
+{% block extrajs %}
+{% endblock extrajs %}
+
+{% block content %}
+<div id="mainvisual" class="container-fluid">
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="/static/mainvisual_001.jpg" class="d-block w-100" alt="料理の画像">
+          </div>
+          <div class="carousel-item">
+            <img src="/static/mainvisual_002.jpg" class="d-block w-100" alt="料理の画像">
+          </div>
+          <div class="carousel-item">
+            <img src="/static/mainvisual_003.jpg" class="d-block w-100" alt="料理の画像">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div>
+      <section>
+        <h6 class="b_bottom">新着のお店</h6>
+        <div id="restaurant_new" class="container d-flex flex-wrap">
+          {% for restaurant in restaurants_new %}
+          <div class="card m-2" style="width: 10rem;">
+            <img src="{{ restaurant.restaurant_image.url }}" class="card-img-top" alt="店舗画像">
+            <div class="card-body">
+              {% for category in restaurant.get_category_name %}
+              {% if forloop.counter <= 2 %}
+              <span class="category_label">{{ category }}</span>
+              {% endif %}
+              {% endfor %}
+              <p class="card-title bold mt-1"><a href="{% url 'restaurant_detail' pk=restaurant.id %}">{{ restaurant.restaurant_name }}</a></p>
+              <span class="fnt_yellow">{{ restaurant.avg_star_icon }}</span>
+              <span class="card-text fnt_sml">{{ restaurant.avg_score | floatformat:1 }}</span>
+              <p class="card-text fnt_sml">&lpar;{{ restaurant.review_count }}件のレビュー&rpar;</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      <section>
+        <h6 class="b_bottom">評価が高いお店</h6>
+        <div id="restaurant_high_score" class="container d-flex flex-wrap">
+          {% for restaurant in highscore_restaurant_list %}
+          <div class="card m-2" style="width: 10rem;">
+            <img src="/media/{{ restaurant.0 | get_value:'restaurant_image' }}" class="card-img-top" alt="店舗画像">
+            <div class="card-body">
+              {% for k, v in restaurant.0.items %}
+              {% if k == 'res_categories' %}
+              {% for cat_name in v %}
+                {% if forloop.counter <= 2 %}
+                <span class="category_label">{{ cat_name }}</span>
+                {% endif %}
+              {% endfor %}
+              {% endif %}
+              {% endfor %}
+              <p class="card-title bold mt-1"><a href="/restaurant_detail/{{ restaurant.0 | get_value:'id' }}">{{ restaurant.0 | get_value:'restaurant_name' }}</a></p>
+              <span class="fnt_yellow">{{ restaurant.0 | get_value:'star_score' }}</span>
+              <span class="card-text fnt_sml">{{ restaurant.0 | get_value:'score' | floatformat:1 }}</span>
+              <p class="card-text fnt_sml">&lpar;{{ restaurant.0 | get_value:'review_count' }}件のレビュー&rpar;</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      <section>
+        <h6 class="b_bottom">レビュー数の多いお店</h6>
+        <div id="restaurant_many_review" class="container d-flex flex-wrap">
+          {% for restaurant in many_review_restaurant_list %}
+          <div class="card m-2" style="width: 10rem;">
+            <img src="/media/{{ restaurant.0 | get_value:'restaurant_image' }}" class="card-img-top" alt="店舗画像">
+            <div class="card-body">
+              {% for k, v in restaurant.0.items %}
+              {% if k == 'res_categories' %}
+              {% for cat_name in v %}
+                {% if forloop.counter <= 2 %}
+                <span class="category_label">{{ cat_name }}</span>
+                {% endif %}
+              {% endfor %}
+              {% endif %}
+              {% endfor %}
+              <p class="card-title bold mt-1"><a href="/restaurant_detail/{{ restaurant.0 | get_value:'id' }}">{{ restaurant.0 | get_value:'restaurant_name' }}</a></p>
+              <span class="fnt_yellow">{{ restaurant.0 | get_value:'star_score' }}</span>
+              <span class="card-text fnt_sml">{{ restaurant.0 | get_value:'score' | floatformat:1 }}</span>
+              <p class="card-text fnt_sml">&lpar;{{ restaurant.0 | get_value:'review_count' }}件のレビュー&rpar;</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+</div>
+{% endblock content %}

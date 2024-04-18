@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="form_class w-100 m-auto">
+    <form method="POST">
+        {% csrf_token %}
+        <h1 class="h6 mb-3 fw-normal">アカウント情報更新</h1>
+        <div class="form-floating mb-3">
+            {{ form.email | add_class:"form-control" }}
+            <label for="floatingInput">メールアドレス</label>
+        </div>
+        <div class="form-floating mb-3">
+            {{ form.nickname | add_class:"form-control" }}
+            <label for="floatingPassword">ニックネーム</label>
+        </div>
+        <div class="form-floating mb-3">
+            {{ form.phone_number | add_class:"form-control" }}
+            <label for="floatingPassword">電話番号</label>
+        </div>
+        <button class="btn btn-dark w-100 py-2" type="submit">更新</button>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <section>
+        <h6 class="b_bottom">アカウント情報</h6>
+        <p class="fnt_lightblue bold">♪{{ request.user.get_nickname }}さんのアカウント情報♪</p>
+        <table class="table">
+            <tr><td>ユーザー名</td><td>{{ user.nickname }}</td></tr>
+            <tr><td>メールアドレス</td><td>{{ user.email }}</td></tr>
+            <tr><td>電話番号</td><td>{{ user.phone_number }}</td></tr>
+            <tr><td>登録日</td><td>{{ user.date_joined|date:"Y-m-d H:i:s" }}</td></tr>
+            <tr><td>最終ログイン日時</td><td>{{ user.last_login|date:"Y-m-d H:i:s" }}</td></tr>
+        </table>
+        <div class="wrapper_btn_col fit_btn">
+            <a href="{% url 'update' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap">アカウント情報更新</button></a>
+        </div>
+    </section>
+</div>
+{% endblock content %}

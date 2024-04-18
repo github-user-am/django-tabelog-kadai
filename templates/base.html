@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="名古屋のB級グルメを検索できるサイト">
+        <title>Nagoyameshi</title>
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+        <!-- Bootstrap CDN -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <!-- CSS -->
+        <link rel="stylesheet" href="/static/css/style.css">
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <nav class="navbar bg-dark border-bottom border-bottom-dark justify-content-center" data-bs-theme="dark">
+                <a class="navbar-brand" href="{% url 'top' %}">NAGOYAMESHI</a>
+            </nav>
+        </header>
+        <main class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                    <div class="container wrapper_section">
+                        <section id="account">
+                            <div class="container">
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.is_superuser %}
+                                    <p class="fnt_lightblue bold">ようこそ!{{ user.get_nickname }}さん</p>
+                                    <p class="fnt_sml">サイト管理者ユーザーとしてログインしています</p>
+                                    <div class="wrapper_btn_col fit_btn">
+                                        <a href="{% url 'logout' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">ログアウト</button></a>
+                                        <a href="{% url 'mypage' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">マイページ</button></a>
+                                        <a href="{% url 'admin_top' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">管理者ページ</button></a>
+                                    </div>
+                                    {% elif request.user.is_admin %}
+                                    <p class="fnt_lightblue bold">ようこそ!{{ user.get_nickname }}さん</p>
+                                    <p class="fnt_sml">店舗管理者ユーザーとしてログインしています</p>
+                                    <div class="wrapper_btn_col fit_btn">
+                                        <a href="{% url 'logout' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">ログアウト</button></a>
+                                        <a href="{% url 'mypage' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">マイページ</button></a>
+                                        <a href="{% url 'admin_top' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">管理者ページ</button></a>
+                                    </div>
+                                    {% else %}
+                                    <p class="fnt_lightblue bold">ようこそ!{{ user.get_nickname }}さん</p>
+                                    <div class="wrapper_btn_col fit_btn">
+                                        <a href="{% url 'logout' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">ログアウト</button></a>
+                                        <a href="{% url 'mypage' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">マイページ</button></a>
+                                    </div>
+                                    {% endif %}
+                                {% else %}
+                                <div class="wrapper_btn_col fit_btn">
+                                    <a href="{% url 'login' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">ログイン</button></a>
+                                    <a href="{% url 'signup' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">会員登録</button></a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </section>
+                        <section id="userinfo">
+                            <div class="container">
+                                <p class="bold">ユーザー情報</p>
+                                <ul class="userinfo_list ps-0">
+                                    <li class="mb-1"><a href="{% url 'mypage' %}">マイページ</a></li>
+                                    <li class="mb-1"><a href="{% url 'list_reservation' %}">予約一覧</a></li>
+                                    <li class="mb-1"><a href="{% url 'list_favorite' %}">お気に入り</a></li>
+                                    <li class="mb-1"><a href="{% url 'access_history' %}">閲覧履歴</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section id="keyword_search">
+                            <div class="container">
+                                <p class="bold">キーワードで探す</p>
+                                <form class="sform" method="get" action="{% url 'list' %}">
+                                    <input id="ibox" type="text" value="{{ request.GET.keyword }}" name="keyword" placeholder="キーワード検索">
+                                    <button type="submit" id="sbtn"><i class="fas fa-search"></i></button>
+                                </form>
+                            </div>
+                        </section>
+                        <section id="area_search">
+                            <div class="container">
+                                <p class="bold">エリアで探す</p>
+                                <form class="sform" method="get" action="{% url 'list' %}">
+                                    <input id="ibox" type="text" value="{{ request.GET.area }}" name="area" placeholder="エリア検索">
+                                    <button type="submit" id="sbtn"><i class="fas fa-search"></i></button>
+                                </form>
+                            </div>
+                        </section>
+                        <section id="category_search">
+                            <div class="container">
+                                <p class="bold">カテゴリで探す</p>
+                            </div>
+                            <div class="conteiner d-flex flex-wrap category_btn_list">
+                                {% for category in categories %}
+                                <form class="categories_list" method="get" action="{% url 'list' %}">
+                                    <a href="{% url 'list' %}"><button class="btn btn-outline-dark rounded-0 text-nowrap btn-sm my-1 ms-2" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .70rem;" type="submit" name="category_id" value="{{ category.id }}">{{ category.category_name }}</button></a>
+                                </form>
+                                {% endfor %}
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-8">
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+            </div>
+        </main>
+        <footer class="text-center bg-dark">
+            <div class="row">
+                <ul class="nav justify-content-center d-flex flex-column py-5">
+                    <li class="nav-item">
+                        <a class="nav-link link-secondary fnt_sml under_line" href="{% url 'about' %}">About NAGOYAMESHI</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-secondary fnt_sml under_line" href="{% url 'privacy_policy' %}">プライバシーポリシー</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-secondary fnt_sml under_line" href="{% url 'signup' %}">会員登録</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-secondary fnt_sml under_line" href="{% url 'mypage' %}">マイページ</a>
+                    </li>
+                </ul>
+            </div>
+            <h5 class="fnt_white"><a class="navbar-brand" href="{% url 'top' %}">NAGOYAMESHI</a></h5>
+            <small class="fnt_white">&copy; 2024 NAGOYAMESHI</small>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        {% block extrajs %}
+        {% endblock %}
+    </body>
+</html>

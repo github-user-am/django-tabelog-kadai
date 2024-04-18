@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <div class="card mb-4 rounded-0 w-50">
+        <div class="card-header py-3">
+          <h5 class="my-0 text-center">NAGOYAMESHI 有料会員</h5>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title pricing-card-title">&yen;300<small class="text-body-secondary fw-light">/月</small></h5>
+          <p>有料会員は月額300円ですべてのサービスを使えます!</p>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>・店舗レビューの投稿</li>
+            <li>・お気に入り登録</li>
+            <li>・店舗予約</li>
+          </ul>
+            <form action="{% url 'create_checkout_session' pk=1 %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="w-100 btn btn-lg btn-outline-dark">有料会員登録へ</button>
+            </form>
+            <a href="{% url 'top' %}"><button type="button" class="w-100 btn btn-lg btn-outline-dark mt-3">TOPに戻る</button></a>
+        </div>
+    </div>
+</section>
+{% endblock content %}

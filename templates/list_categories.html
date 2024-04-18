@@ -1,0 +1,28 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<section id="list_categories">
+    <h6 class="b_bottom">カテゴリ一覧</h6>
+    <p class="mt-3">{{ no_category_message }}</p>
+    <p class="mt-2">*カテゴリを作成する</p>
+    <form id="add_form" class="form_class" method="post" action="{% url 'create_category' %}">{% csrf_token %}
+        <p class="form_error_msg">{{ message }}</p>
+        <input id="cname_box" type="text" value="{{ request.GET.category_name }}" name="category_name" placeholder="カテゴリ名を入力">
+        <button type="submit" id="add_btn"><i class="fas fa-plus"></i></button>
+    </form>
+    <div class="table_layout mt-3">
+        <table>
+            <tr>
+                <th>カテゴリ名</th>
+                <th>作成日時</th>
+            </tr>
+            {% for category in categories %}
+            <tr>
+                <td>{{ category.category_name }}</td>
+                <td>{{ category.create_at | date:"Y/m/d H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
+{% endblock content %}

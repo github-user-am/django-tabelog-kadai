@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <div class="card mb-4 rounded-0 w-50">
+        <div class="card-header py-3">
+          <h5 class="my-0 text-center">NAGOYAMESHI 有料会員解約</h5>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title pricing-card-title">&yen;300<small class="text-body-secondary fw-light">/月</small></h5>
+          <p class="fnt_red">解約すると、以下のサービスが利用できなくなります。よろしいですか？</p>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>・店舗レビューの投稿</li>
+            <li>・お気に入り登録</li>
+            <li>・店舗予約</li>
+          </ul>
+            <form action="{% url 'cancel_subscription_session' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="subscription_id" value="{{ subscription_id }}" />
+                <button class="w-100 btn btn-lg btn-outline-dark mt-3" type="submit">有料会員登録を解約する</button>
+            </form>
+            <a href="{% url 'top' %}"><button type="button" class="w-100 btn btn-lg btn-outline-dark mt-3">TOPに戻る</button></a>
+        </div>
+    </div>
+</section>
+{% endblock content %}

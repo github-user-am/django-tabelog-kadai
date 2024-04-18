@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% block extrajs %}
+<script type="text/javascript">
+document.getElementById('ajax-favorite').addEventListener('click', e => {
+    e.preventDefault();
+    var csrf_token = getCookie("csrftoken");
+$.ajax({
+         url: '{% url "myfavorite" %}',
+         type: 'POST',
+         data: {'restaurant_id': {{ restaurant.id }}},
+         beforeSend: function(xhr, settings) {
+                       if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                         xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                       }
+         },
+       }).done(function(response) {
+        const icon = document.getElementById('favorite-icon')
+       //処理
+        if (response.method == 'create') {
+        icon.classList.remove('far')
+        icon.classList.add('fas')
+        icon.id = 'favorite-icon'
+      } else {
+        icon.classList.remove('fas')
+        icon.classList.add('far')
+        icon.id = 'favorite-icon'
+      }
+       console.log(result)
+    }).fail(function(result) {
+       //処理
+       //アラートを書くとよい
+});
+})
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+// csrf_tokenの取得に使う
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock extrajs %}
+
+{% block content %}
+<section>
+  <div id="restaurant_detail" class="container">
+    <!-- レストラン画像 -->
+    <div class="restaurant_image">
+      <img src="{{ restaurant.restaurant_image.url}}" alt="店舗画像">
+    </div>
+    
+    <!-- レストラン詳細 -->
+    <div class="restaurant_info">
+      {% for category_name in restaurant.get_category_name %}
+      {% if forloop.counter <= 5 %}
+      <span class="category_label">{{ category_name }}</span>
+      {% endif %}
+      {% endfor %}
+      <h5 class="mt-3">{{ restaurant.restaurant_name }}</h5>
+      <p>{{ restaurant.description }}</p>
+      <!-- ここにレストランの評価を入れる -->
+      <div class="b_bottom">
+        <span class="bold">&lt;評価&gt;</span>
+        <span class="fnt_yellow">{{ restaurant.avg_star_icon }}</span>
+        <span class="fnt_sml">{{ restaurant.avg_score | floatformat:1 }}</span>
+      </div>
+      <div class="b_bottom">
+        <span class="bold">&lt;住所&gt;</span>
+        <span>〒{{ restaurant.postal_code }} {{ restaurant.address }}</span>
+      </div>
+      <div class="b_bottom">
+        <span class="bold">&lt;定休日&gt;</span>
+        <span>{{ restaurant.get_regular_holiday }}</span>
+      </div>
+      <div class="b_bottom">
+        <span class="bold">&lt;営業時間&gt;</span>
+        <span>{{ restaurant.opening }}～{{ restaurant.closing }}</span>
+      </div>
+      <div class="b_bottom">
+        <span class="bold">&lt;座席数&gt;</span>
+        <span>{{ restaurant.seat_number }}</span>
+      </div>
+      <!-- レビューボタン -->
+      <div class="mt-3 mb-3">
+        {% if is_user_logged_in %}
+          {% if is_user_subscribed %}
+          <div class="wrapper_btn_col fit_btn">
+          <a href="{% url 'create_review' pk=restaurant.id %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap">レビューを投稿する</button></a>
+          </div>
+          {% else %}
+          <div class="wrapper_btn_col fit_btn">
+          <a href="{% url 'create_review' pk=restaurant.id %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap disabled">レビューを投稿する</button></a>
+          </div>
+          <p class="mt-1 fnt_sml">レビューを投稿するには<a href="{% url 'confirm_subscribe' %}" class="fnt_blue under_line">有料会員登録</a>が必要です</p>
+          {% endif %}
+        {% else %}
+        <div class="wrapper_btn_col fit_btn">
+        <a href="{% url 'create_review' pk=restaurant.id %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap disabled">レビューを投稿する</button></a>
+        </div>
+        <p class="mt-1 fnt_sml">レビューを投稿するには<a href="{% url 'login' %}" class="fnt_blue under_line">ログイン</a>が必要です</p>
+        {% endif %}
+      </div>
+      <!-- 予約ボタン -->
+      <div class="mb-3">
+        {% if is_user_logged_in %}
+          {% if is_user_subscribed %}
+          <div class="wrapper_btn_col fit_btn">
+          <a href="{% url 'reservation' pk=restaurant.id year=today.year month=today.month day=today.day %}"><button type="submit" class="btn btn-outline-dark rounded-0 text-nowrap">このお店を予約する</button></a>
+          </div>
+          {% else %}
+          <div class="wrapper_btn_col fit_btn">
+          <a href="{% url 'reservation' pk=restaurant.id year=today.year month=today.month day=today.day %}"><button type="submit" class="btn btn-outline-dark rounded-0 text-nowrap disabled">このお店を予約する</button></a>
+          </div>
+          <p class="mt-1 fnt_sml">予約するには<a href="{% url 'confirm_subscribe' %}" class="fnt_blue under_line">有料会員登録</a>が必要です</p>
+          {% endif %}
+        {% else %}
+        <div class="wrapper_btn_col fit_btn">
+        <a href="{% url 'reservation' pk=restaurant.id year=today.year month=today.month day=today.day %}"><button type="submit" class="btn btn-outline-dark rounded-0 text-nowrap disabled">このお店を予約する</button></a>
+        </div>
+        <p class="mt-1 fnt_sml">予約をするには<a href="{% url 'login' %}" class="fnt_blue under_line">ログイン</a>が必要です</p>
+        {% endif %}
+      </div>
+      <!-- お気に入りボタン -->
+      <div>
+        {% if is_user_logged_in %}
+          {% if is_user_subscribed %}
+            {% if is_user_liked %}
+            <button type="button" class="btn p-0 fnt_mdl" id="ajax-favorite" style="border:none;background:none">
+              <!-- すでにお気に入り登録している時はfasクラス -->
+              <i class="fas fa-heart text-danger" id="favorite-icon"></i><span>お気に入り済み</span>
+            </button>
+            {% else %}
+            <button type="button" class="btn p-0 fnt_mdl" id="ajax-favorite" style="border:none;background:none">
+              <!-- お気に入りしていないときはfarクラス -->
+              <i class="far fa-heart text-danger" id="favorite-icon"></i><span class="ms-1">お気に入り追加</span>
+            </button>
+            {% endif %}
+          {% else %}
+          <button type="button" class="btn disabled p-0 fnt_mdl" id="ajax-favorite" style="border:none;background:none">
+            <!-- お気に入りしていないときはfarクラス -->
+            <i class="far fa-heart text-danger" id="favorite-icon"></i><span class="ms-1">お気に入り追加</span>
+          </button>
+          <p class="mt-1 fnt_sml">お気に入り登録するには<a href="{% url 'confirm_subscribe' %}" class="fnt_blue under_line">有料会員登録</a>が必要です</p>
+          {% endif %}
+        {% else %}
+        <button type="button" class="btn disabled p-0 fnt_mdl" id="ajax-favorite" style="border:none;background:none">
+          <!-- お気に入りしていないときはfarクラス -->
+          <i class="far fa-heart text-danger" id="favorite-icon"></i><span class="ms-1">お気に入り追加</span>
+        </button>
+        <p class="mt-1 fnt_sml">お気に入り追加するには<a href="{% url 'login' %}" class="fnt_blue under_line">ログイン</a>が必要です</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- レビュー一覧 -->
+<section>
+  <div class="container">
+    <h6 class="b_bottom">新着レビュー</h6>
+    {% if restaurant_reviews %}
+    {% for review in restaurant_reviews %}
+    <div class="card mt-3 mb-3" style="width: 100%;">
+      <div class="card-body card_list">
+        <p class="fnt_big bold">{{ review.review_title }}</p>
+        <p>投稿者:{{ review.get_reviewer }}</p>
+        <p>投稿日:{{ review.create_at }}</p>
+        <span>評価:</span>
+        <span class="fnt_yellow">{{ review.get_star_score }}</span>
+        <span class="fnt_sml">&#40;{{ review.score }}&#41;</span>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="mt-3">レビューはまだありません</p>
+    {% endif %}
+    <div class="mt-3">
+      <form method="get" action="{% url 'list_review' pk=restaurant.id %}">
+        <div class="wrapper_btn_col fit_btn">
+        <a href="{% url 'list_review' pk=restaurant.id %}"><button type="submit" class="btn btn-outline-dark rounded-0 text-nowrap">すべてのレビューを見る</button></a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock content %}

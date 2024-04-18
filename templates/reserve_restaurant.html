@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<section id="reserve_restaurant">
+    <h6 class="b_bottom">予約フォーム</h6>
+    <p class="alert_message mt-3">{{ message }}</p>
+    <div id="reservation_form" class="mt-3">
+        <p>お名前: <span>{{ nickname }} さん</span></p>
+        <p>店舗名: <span>{{ restaurant.restaurant_name }}</span></p>
+        <p>予約日時: <span>{{ reservation_start | date:"Y/m/d H:i" }} ～ {{ reservation_end | date:"Y/m/d H:i" }}</span></p>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm" value="この内容で予約する" />
+        </form>
+    </div>
+</section>
+{% endblock content %}

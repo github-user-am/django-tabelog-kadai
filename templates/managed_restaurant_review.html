@@ -1,0 +1,26 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<section id="managed_restaurant_review">
+    <h6 class="b_bottom">{{ managed_restaurant.restaurant_name }}のレビュー一覧</h6>
+    <p class="mt-3">{{ message }}</p>
+    <div class="table_layout mt-3">
+        {% if managed_restaurant_reviews %}
+        <table>
+            <tr>
+                <th>タイトル</th>
+                <th>コメント</th>
+                <th nowrap>評価</th>
+            </tr>
+            {% for review in managed_restaurant_reviews %}
+            <tr>
+                <td>{{ review.review_title }}</td>
+                <td>{{ review.review_comment }}</td>
+                <td>{{ review.score }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}

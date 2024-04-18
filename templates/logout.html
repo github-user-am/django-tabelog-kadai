@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="logout">
+    <p>ログアウトしました。</p>
+    <p>ご利用ありがとうございました!</p>
+    <div class="wrapper_btn_row fit_btn">
+        <a href="{% url 'top' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">TOPに戻る</button></a>
+        <a href="{% url 'login' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">ログイン</button></a>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="restaurant_list">
+  {% for message in messages %}
+  <div {% if message.result_num %}class="{{ message.result_num }}"{% endif %}>
+    <p>{{ message }}件の店舗が見つかりました</p>
+  </div>
+  {% endfor %}
+  <div>
+    {% for restaurant in restaurant_list %}
+      <div class="card mb-2 border-0" style="max-width: 100%;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{ restaurant.restaurant_image.url}}" class="img-fluid" alt="店舗画像">
+          </div>
+          <div class="col-md-8">
+            <div class="ms-2">
+              {% for category_name in restaurant.get_category_name %}
+              {% if forloop.counter <= 5 %}
+              <span class="category_label">{{ category_name }}</span>
+              {% endif %}
+              {% endfor %}
+              <h6 class="bold mt-2"><a href="{% url 'restaurant_detail' pk=restaurant.id %}">{{ restaurant.restaurant_name }}</a></h6>
+              <p class="mb-1">営業時間:{{ restaurant.opening }}～{{ restaurant.closing }}</p>
+              <p class="mb-1">定休日:{{ restaurant.get_regular_holiday }}</p>
+              <p class="mb-1">住所:{{ restaurant.address }}</p>
+              <p class="mt-2">{{ restaurant.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="h4 pb-2 mb-4 border-bottom border-secondary"></div>
+    {% endfor %}
+  <div>
+</section>
+<section class="pagenation">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-start">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.keyword or request.GET.area or request.GET.category_id %}&keyword={{ request.GET.keyword }}&area={{ request.GET.area }}&category_id={{ request.GET.category_id }}{% endif %}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% endif %}
+        {% for page_num in paginator.page_range %}
+            {% if page_obj.number == page_num %}
+            <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if request.GET.keyword or request.GET.area or request.GET.category_id %}&keyword={{ request.GET.keyword }}&area={{ request.GET.area }}&category_id={{ request.GET.category_id }}{% endif %}">{{ page_num }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.keyword or request.GET.area or request.GET.category_id %}&keyword={{ request.GET.keyword }}&area={{ request.GET.area }}&category_id={{ request.GET.category_id }}{% endif %}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+  </nav>
+</section>
+{% endblock content %}

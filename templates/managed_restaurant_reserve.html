@@ -1,0 +1,28 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<section id="managed_restaurant_reserve">
+    <h6 class="b_bottom">{{ managed_restaurant.restaurant_name }}の予約一覧</h6>
+    <p class="mt-3">{{ message }}</p>
+    <div class="table_layout mt-3">
+        {% if managed_restaurant_reservations %}
+        <table>
+            <tr>
+                <th>日付</th>
+                <th>時間</th>
+                <th>人数</th>
+                <th>名前</th>
+            </tr>
+            {% for reserve in managed_restaurant_reservations %}
+            <tr>
+                <td>{{ reserve.reservation_date | date:"Y/m/d" }}</td>
+                <td>{{ reserve.reservation_start | date:"H:i" }}～{{ reserve.reservation_end | date:"H:i" }}</td>
+                <td>{{ reserve.number_of_people }} 名</td>
+                <td>{{ reserve.user.get_nickname }} 様</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}

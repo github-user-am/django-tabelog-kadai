@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="cancel_reservation">
+    <p>この予約をキャンセルしてもよろしいですか?</p>
+    <p>店舗名: {{ restaurant.restaurant_name }}</p>
+    <p>予約日時: {{ reservation.reservation_start | date:"Y/m/d H:i" }}～</p>
+    <form action="/cancel_reservation/{{ restaurant.id }}/{{ reservation.id }}/" method="post">
+        {% csrf_token %}
+        <div class="wrapper_btn_col fit_btn">
+            <button type="submit" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">キャンセルする</button>
+        </div>
+    </form>
+    <div class="wrapper_btn_col fit_btn mt-3">
+        <a href="{% url 'list_reservation' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">予約一覧へ戻る</button></a>
+    </div>
+</section>
+{% endblock content %}

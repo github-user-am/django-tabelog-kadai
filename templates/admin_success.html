@@ -1,0 +1,10 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<section id="admin_success">
+    <div>
+        <p>{{ message }}</p>
+        <p><a class="fnt_blue under_line" href="{{ url }}">{{ text }}</a>へ</p>
+    </div>
+</section>
+{% endblock content %}

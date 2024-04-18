@@ -1,0 +1,42 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<section id="managed_account">
+    <h6 class="b_bottom">登録者一覧</h6>
+    <div class="mt-3">
+        <form class="sform" method="get" action="{% url 'account_search' %}">
+            <input id="ibox" type="text" value="{{ request.GET.keyword }}" name="keyword" placeholder="キーワード検索">
+            <button type="submit" id="sbtn"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+    <div class="wrapper_btn_col fit_btn mt-3">
+        <a href="{% url 'download_accounts_info' %}"><button type="button" class="btn btn-outline-dark rounded-0 text-nowrap btn-sm">登録者情報ダウンロード</button></a>
+    </div>
+    <div class="table_layout mt-3">
+        <table>
+            <tr>
+                <th>メールアドレス</th>
+                <th>ニックネーム</th>
+                <th>電話番号</th>
+                <th>最終ログイン日時</th>
+                <th>登録日時</th>
+                <th>最終更新日時</th>
+                <th>スーパー管理者フラグ</th>
+                <th>店舗管理者フラグ</th>
+            </tr>
+            {% for account in accounts %}
+            <tr>
+                <td>{{ account.email }}</td>
+                <td>{{ account.nickname }}</td>
+                <td>{{ account.phone_number }}</td>
+                <td>{{ account.last_login | date:"Y-m-d H:i:s" }}</td>
+                <td>{{ account.date_joined | date:"Y-m-d H:i:s" }}</td>
+                <td>{{ account.update_at | date:"Y-m-d H:i:s" }}</td>
+                <td>{{ account.is_superuser }}</td>
+                <td>{{ account.is_admin }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
+{% endblock content %}

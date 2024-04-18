@@ -1,0 +1,47 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<section id="admin_top">
+  <h6 class="b_bottom">管理者メニュー</h6>
+  <div class="mt-3">
+      <ul id="admintop_btn" style="list-style: none; padding-left: 0;">
+        <li>
+          <a href="{% url 'list_managed_restaurant' %}" class="link-btn">
+          <img src="/static/building.svg">
+          <p>店舗管理</p>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'list_categories' %}" class="link-btn">
+          <img src="/static/category.svg">
+          <p>カテゴリ管理</p>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'download_as_csv' %}" class="link-btn">
+          <img src="/static/download.svg">
+          <p>ダウンロード</p>
+          </a>
+        </li>
+      </ul>
+  </div>
+  {% if request.user.is_superuser %}
+  <div>
+      <ul id="admintop_btn" style="list-style: none; padding-left: 0;">
+        <li>
+          <a href="{% url 'list_managed_account' %}" class="link-btn">
+          <img src="/static/account.svg">
+          <p>登録者管理</p>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'uriage' %}?y=2024" class="link-btn">
+          <img src="/static/proceeds.svg">
+          <p>売上管理</p>
+          </a>
+        </li>
+      </ul>
+  </div>
+  {% endif %}
+</section>
+{% endblock content %}

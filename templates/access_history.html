@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load custom %}
+
+{% block content %}
+<section id="access_history">
+    <h6 class="b_bottom">{{ request.user.get_nickname }}さんの閲覧履歴</h6>
+    <div class="table_no_border mt-3">
+        <p>{{ message }}</p>
+        <table>
+            <tr>
+                <th>アクセスURL</th>
+                <th>アクセス日時</th>
+            </tr>
+            {% for history in histories_list %}
+            <tr>
+                <td><a href="{{ history | get_value:'url' }}" class="fnt_blue under_line">{{ history | get_value:'restaurant_name' }}</a></td>
+                <td>{{ history | get_value:'time' | date:"Y/m/d H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
+{% endblock content %}
