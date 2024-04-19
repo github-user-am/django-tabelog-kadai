@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'nagoyameshi.apps.NagoyameshiConfig',
     'widget_tweaks',
+    'nagoyameshi-v1',
 ]
 
 MIDDLEWARE = [
