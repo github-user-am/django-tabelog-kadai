@@ -1,0 +1,364 @@
+@charset "UTF-8";
+
+/* general */
+html {
+    font-size: 100%;
+    font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+}
+body {
+    color: #262525;
+    font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+}
+a {
+    text-decoration: none;
+    color: #262525;
+}
+li {
+    list-style: none;
+}
+header {
+    margin-bottom: 40px;
+}
+footer {
+    margin-top: 40px;
+}
+section {
+    margin-top: 30px;
+    font-size: 80%;
+}
+small {
+    font-size: 0.7em;
+}
+
+/* list */
+.list_style {
+    list-style: square;
+}
+
+/* button */
+.btn {
+    font-size: 0.9em;
+}
+.wrapper_btn_col {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+.wrapper_btn_row {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+.fit_btn .btn {
+    width: 150px;
+}
+.fit_btn_wide .btn {
+    width: 100%;
+}
+
+/* フォント関連のcss */
+/* font-bold */
+.bold {
+    font-weight: bold;
+}
+
+/* font-small */
+.fnt_sml {
+    font-size: 0.9em;
+}
+/* font-middle */
+.fnt_mdl {
+    font-size: 1em;
+}
+/*font-big */
+.fnt_big {
+    font-size: 1.1em;
+}
+
+/* font color */
+.fnt_pink {
+    color: rgb(215, 73, 168);
+}
+.fnt_blue {
+    color: rgb(28, 103, 222)
+}
+.fnt_lightblue {
+    color: #7fbfff;
+}
+.fnt_white {
+    color: #fff;
+}
+.fnt_yellow {
+    color: #ffd700;
+}
+.fnt_red {
+    color: red;
+}
+.fnt_orange {
+    color: orange;
+}
+
+/* border */
+.b_bottom {
+    border-bottom: solid 1px #666;
+}
+
+/* underline */
+.under_line {
+    text-decoration: underline;
+}
+
+/* alert message */
+.alert_message {
+    color:rgb(255, 0, 34)
+}
+
+/* フォーム関連のエラーメッセージ */
+.form_class .form_error_msg {
+    font-size: 0.8em;
+    color: red;
+}
+.form_class .form_error_msg ul {
+    padding-left: 0.5em;
+}
+.form-class .form_error_msg li {
+    padding-left: 0.5em;
+}
+
+/* ページネーション */
+.pagination .page-link {
+    color: #262525;
+}
+.pagination > .active > .page-link {
+    color: #fff;
+    background-color: #262525;
+    border-color: #262525;
+}
+.pagination .page-item:first-child .page-link {
+    border-radius: 0;
+}
+.pagination .page-item:last-child .page-link {
+    border-radius: 0;
+}
+
+/* テーブルレイアウト */
+.table_layout table {
+    width: 100%;
+}
+.table_layout th {
+    padding: 6px;
+    border: 1px #262525 solid;
+}
+.table_layout td {
+    padding: 6px;
+    border: 1px #262525 solid;
+}
+.table_no_border table {
+    width: 100%;
+}
+.table_no_border th {
+    padding: 6px;
+    border: none;
+}
+.table_no_border td {
+    padding: 6px;
+    border: none;
+}
+
+/* mypageのコンテンツ */
+#mypage_btn {
+    display: flex;
+	flex-wrap:wrap;
+}
+#mypage_btn li {
+    display:flex;
+    width: calc(100%/2.1); /*2つ並べる場合*/
+    height: 80px;
+    text-align: center;
+    align-items: center;
+    border: solid 1px #666;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.link-btn {
+    width: 100%;
+}
+#mypage_btn img {
+    height: 30px;
+    width: 30px;
+    margin-bottom: 1px;
+}
+#mypage_btn p {
+    margin: 0;
+}
+
+/* メインビジュアル */
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1200px;
+}
+
+/* カテゴリラベル */
+.category_label {
+    font-size: 0.8em;
+    padding: 0.8px;
+    border: solid 1px #262525;
+    background: #262525;
+    color: #fff;
+}
+
+/* 検索フォーム */
+.sform {
+    position: relative;
+    max-width: 200px;
+    margin-bottom: auto;
+}
+#ibox {
+    margin: 0;
+    height: 28px;
+    width: 9em;
+    transition: all .6s ease;
+    border-bottom:1px solid #cccccc;
+    border-right:none;
+    border-left:none;
+    border-top:none;
+    border-radius:0px;
+}
+#ibox:focus{
+    outline: none;
+}
+#sbtn {
+    vertical-align:top;
+    width: 35px;
+    height: 30px;
+    padding: 0;
+    font-family: 'Font Awesome\ 5 Free';
+    font-size: 18px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #666;
+}
+#sbtn:hover{
+    color:#7fbfff;
+}
+
+/* 店舗詳細画面 */
+#restaurant_detail {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+#restaurant_detail .restaurant_image {
+    max-width: 600px;
+    flex-shrink: 0;
+    margin: 0 20px;
+}
+#restaurant_detail .restaurant_info {
+    width: 100%;
+    margin-left: 20px;
+}
+
+/* レビュー画面の参考になったボタン */
+.fas_button_border{
+	padding: 0 10px;
+	height: 35px;
+	line-height: 1;
+	background: #fff;
+	border: 1px solid #666;
+	color: #666;
+	font-size: 0.9em;
+	cursor: pointer;
+}
+.fas_button_border:before{
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	font-family: "Font Awesome 5 Free"; 
+	font-weight: 400;
+	content: '\f164';
+	margin-right: 5px;
+}
+.fas_button_border:hover {
+    color: #fff;
+    background-color: #666;
+}
+.good_btn {
+    font-size: 0.8em;
+}
+
+/* 管理者画面 */
+/* Admin Topのコンテンツ */
+#admintop_btn li {
+    display:flex;
+    height: 80px;
+    text-align: center;
+    align-items: center;
+    border: solid 1px #666;
+    margin: auto;
+    margin-bottom: 10px;
+}
+#admintop_btn img {
+    height: 30px;
+    width: 30px;
+    margin-bottom: 1px;
+}
+#admintop_btn p {
+    margin: 0;
+}
+
+/* ダウンロード画面のレイアウト */
+#download .flex {
+    display: flex;
+    align-items: center;
+}
+#download input {
+    margin-right: 5px;
+    margin-bottom: 7px;
+}
+#download label {
+    margin-bottom: 7px;
+}
+#download .btn {
+    margin-top: 5px;
+}
+
+/* カテゴリ追加フォーム */
+#add_form {
+    position: relative;
+    max-width: 200px;
+    margin-bottom: auto;
+}
+#cname_box {
+    margin: 0;
+    height: 28px;
+    width: 9em;
+    transition: all .6s ease;
+    border-bottom:1px solid #cccccc;
+    border-right:none;
+    border-left:none;
+    border-top:none;
+    border-radius:0px;
+}
+#cname_box:focus {
+    outline: none;
+}
+#add_btn {
+    vertical-align:top;
+    width: 35px;
+    height: 30px;
+    padding: 0;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 400;
+    font-size: 1em;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #262525;
+}
+
+
+
