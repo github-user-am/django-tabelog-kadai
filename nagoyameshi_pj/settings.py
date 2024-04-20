@@ -26,6 +26,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
+# for test environment
+# SECRET_KEY = SECRET_KEY
+# STRIPE_PUBLIC_KEY = STRIPE_PUBLIC_KEY
+# STRIPE_SECRET_KEY = STRIPE_SECRET_KEY
+# STRIPE_WEBHOOK_SECRET = STRIPE_WEBHOOK_SECRET
+
 # django secret key
 SECRET_KEY = os.environ['SECRET_KEY']
 
