@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 import django_heroku
 
+DEBUG = False
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -124,11 +126,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -156,8 +161,6 @@ STRIPE_SECRET_KEY = 'sk_test_51OyviwJceKdZdZLmH9e9tBB2UP6l5WMVBDeZPCF0KerWiEclbJ
 # StripeのWebhookのシークレットキー
 STRIPE_WEBHOOK_SECRET = 'whsec_052a7a8a9755ceaf148d120fe455213e5ce53232b892ec79a0c1fe97106dadb2'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-DEBUG = False
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
