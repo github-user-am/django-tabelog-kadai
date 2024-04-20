@@ -70,6 +70,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         max_length = 150,
         unique = True,
         help_text = "150文字以内で文字や数字を使うことができます（記号は「@/./+/-/_」のみ使用可能）。" ,
+        blank = True,
+        null = True,
     )
     is_staff = models.BooleanField(
         _("staff status"),
