@@ -1612,7 +1612,7 @@ def create_checkout_session(request, pk):
 
             # ドメイン
             # YOUR_DOMAIN = "http://127.0.0.1:8000"
-            YOUR_DOMAIN = "https://nagoyameshi-v2-2b170df35302.herokuapp.com"
+            YOUR_DOMAIN = "https://nagoyameshi-v3-40cffaa68f0c.herokuapp.com"
 
             # 決済用セッション
             checkout_session = stripe.checkout.Session.create(
