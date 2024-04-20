@@ -10,3 +10,4 @@ env/
 __pycache__
 local_settings.py
 media_local
+staticfiles
