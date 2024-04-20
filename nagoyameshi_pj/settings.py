@@ -88,11 +88,11 @@ WSGI_APPLICATION = 'nagoyameshi_pj.wsgi.application'
 # }
 
 import dj_database_url
-    db_from_env = dj_database_url.config()
-    DATABASES = {
-        'default': dj_database_url.config()
-    }
-    ALLOWED_HOSTS = ['*']
+db_from_env = dj_database_url.config()
+DATABASES = {
+    'default': dj_database_url.config()
+}
+ALLOWED_HOSTS = ['*']
 
 # import dj_database_url
 # db_from_env = dj_database_url.config()
