@@ -1611,7 +1611,8 @@ def create_checkout_session(request, pk):
             price = SubscriptionPrice.objects.get(subscription_product=subscription_product)
 
             # ドメイン
-            YOUR_DOMAIN = "http://127.0.0.1:8000"
+            # YOUR_DOMAIN = "http://127.0.0.1:8000"
+            YOUR_DOMAIN = "https://nagoyameshi-v2-2b170df35302.herokuapp.com"
 
             # 決済用セッション
             checkout_session = stripe.checkout.Session.create(
