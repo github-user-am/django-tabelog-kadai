@@ -87,6 +87,18 @@ WSGI_APPLICATION = 'nagoyameshi_pj.wsgi.application'
 #     }
 # }
 
+DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'd8tn6l7gv67bm7',
+                'USER': 'u1kq61k4vpfl5p',
+                'PASSWORD': 'p6842616751896ad448c73222bb0ec76dcb13d7a77c42bbeb2498dd4c5855b9b0',
+                'HOST': 'cd5vlri6nnqe17.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
+                'PORT': '5432',
+                }
+            }
+
+
 import dj_database_url
 db_from_env = dj_database_url.config()
 DATABASES = {
