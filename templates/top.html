@@ -61,7 +61,7 @@
         <div id="restaurant_high_score" class="container d-flex flex-wrap">
           {% for restaurant in highscore_restaurant_list %}
           <div class="card m-2" style="width: 10rem;">
-            <img src="{% cloudinary {{ restaurant.0 | get_value:'restaurant_image' }}.image.url %}" class="card-img-top" alt="店舗画像">
+            <img src="/media/{{ restaurant.0 | get_value:'restaurant_image' }}" class="card-img-top" alt="店舗画像">
             <div class="card-body">
               {% for k, v in restaurant.0.items %}
               {% if k == 'res_categories' %}
@@ -86,7 +86,7 @@
         <div id="restaurant_many_review" class="container d-flex flex-wrap">
           {% for restaurant in many_review_restaurant_list %}
           <div class="card m-2" style="width: 10rem;">
-            <img src="{% cloudinary {{ restaurant.0 | get_value:'restaurant_image' }}.image.url %}" class="card-img-top" alt="店舗画像">
+            <img src="/media/{{ restaurant.0 | get_value:'restaurant_image' }}" class="card-img-top" alt="店舗画像">
             <div class="card-body">
               {% for k, v in restaurant.0.items %}
               {% if k == 'res_categories' %}
