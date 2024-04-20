@@ -9,4 +9,5 @@ env/
 *.pyc
 __pycache__
 local_settings.py
-media
+media_local
+staticfiles
