@@ -1589,7 +1589,7 @@ def confirm_cancel_subscribe(request):
                 'text': 'マイページ',
             })
 
-### ### Stripe関連の処理（開始） ### ###
+### Stripe関連の処理（開始） ###
 ### Create Checkout Session（サブスクリプション登録、ログインが必要） ###
 @login_required
 def create_checkout_session(request, pk):
