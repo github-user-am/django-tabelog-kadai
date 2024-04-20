@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import django_heroku
-# from .local_settings import *
+from .local_settings import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,18 +27,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # DEBUG = True
 
 # for test environment
-# SECRET_KEY = SECRET_KEY
-# STRIPE_PUBLIC_KEY = STRIPE_PUBLIC_KEY
-# STRIPE_SECRET_KEY = STRIPE_SECRET_KEY
-# STRIPE_WEBHOOK_SECRET = STRIPE_WEBHOOK_SECRET
+SECRET_KEY = SECRET_KEY
+STRIPE_PUBLIC_KEY = STRIPE_PUBLIC_KEY
+STRIPE_SECRET_KEY = STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET = STRIPE_WEBHOOK_SECRET
 
 # django secret key
-SECRET_KEY = os.environ['SECRET_KEY']
+# SECRET_KEY = os.environ['SECRET_KEY']
 
 # stripe
-STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
-STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
-STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
+# STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
+# STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+# STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
 ALLOWED_HOSTS = ['127.0.0.1', '*']
 
