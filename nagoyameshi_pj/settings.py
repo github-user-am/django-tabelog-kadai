@@ -14,8 +14,6 @@ from pathlib import Path
 import os
 import django_heroku
 
-DEBUG = False
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -161,6 +159,6 @@ STRIPE_SECRET_KEY = 'sk_test_51OyviwJceKdZdZLmH9e9tBB2UP6l5WMVBDeZPCF0KerWiEclbJ
 # StripeのWebhookのシークレットキー
 STRIPE_WEBHOOK_SECRET = 'whsec_052a7a8a9755ceaf148d120fe455213e5ce53232b892ec79a0c1fe97106dadb2'
 
-
+DEBUG = False
 
 # django_heroku.settings(locals())
