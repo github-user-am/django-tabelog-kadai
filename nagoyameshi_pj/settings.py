@@ -25,7 +25,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'nagoyameshi-v1.herokuapp.com']
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-!_plza401meg3_=oa94&d^^zog@8=2v3a2g7ut0mp1wfyj&6lz'
@@ -130,14 +131,13 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
+# STORAGES = {
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -164,7 +164,5 @@ STRIPE_SECRET_KEY = 'sk_test_51OyviwJceKdZdZLmH9e9tBB2UP6l5WMVBDeZPCF0KerWiEclbJ
 
 # StripeのWebhookのシークレットキー
 STRIPE_WEBHOOK_SECRET = 'whsec_052a7a8a9755ceaf148d120fe455213e5ce53232b892ec79a0c1fe97106dadb2'
-
-DEBUG = False
 
 django_heroku.settings(locals(), staticfiles=False)

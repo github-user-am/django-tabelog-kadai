@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container">
@@ -18,46 +19,46 @@
       <ul id="mypage_btn" style="list-style: none; padding-left: 0;">
         <li>
           <a href="{% url 'user_info' %}" class="link-btn">
-          <img src="/static/account.svg">
+          <img src="{% static 'account.svg' %}">
           <p>会員情報</p>
           </a>
         </li>
         <li>
           <a href="{% url 'change_password' %}" class="link-btn">
-          <img src="/static/password.svg">
+          <img src="{% static 'password.svg' %}">
           <p>パスワード変更</p>
           </a>
         </li>
         <li>
           <a href="{% url 'list_favorite' %}" class="link-btn">
-          <img src="/static/favorite.svg">
+          <img src="{% static 'favorite.svg' %}">
           <p>お気に入り</p>
           </a>
         </li>
         <li>
           <a href="{% url 'list_reservation' %}" class="link-btn">
-          <img src="/static/booking.svg">
+          <img src="{% static 'booking.svg' %}">
           <p>予約一覧</p>
           </a>
         </li>
         {% if is_subscriber %}
         <li>
           <a href="{% url 'confirm_cancel_subscribe' %}" class="link-btn">
-          <img src="/static/signout.svg">
+          <img src="{% static 'signout.svg' %}">
           <p>有料会員登録解除</p>
           </a>
         </li>
         {% else %}
         <li>
           <a href="{% url 'confirm_subscribe' %}" class="link-btn">
-          <img src="/static/signup.svg">
+          <img src="{% static 'signup.svg' %}">
           <p>有料会員登録</p>
           </a>
         </li>
         {% endif %}
         <li>
           <a href="{% url 'cancel_account' %}" class="link-btn">
-          <img src="/static/signout.svg">
+          <img src="{% static 'signout.svg' %}">
           <p>退会</p>
           </a>
         </li>
