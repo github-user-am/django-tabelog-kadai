@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import django_heroku
+from .local_settings import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'nagoyameshi-v2.herokuapp.com']
+SECRET_KEY = ''
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!_plza401meg3_=oa94&d^^zog@8=2v3a2g7ut0mp1wfyj&6lz'
+ALLOWED_HOSTS = ['127.0.0.1', '*']
 
 # Application definition
 
@@ -157,16 +157,6 @@ AUTH_USER_MODEL = 'nagoyameshi.CustomUser'
 # Login settings
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'top'
-
-# stripe
-# Stripeのパブリックキー
-STRIPE_PUBLIC_KEY = 'pk_test_51OyviwJceKdZdZLmXrURJT9UJL0e2IVSvDWthn0euEFTJwpYPnd7oOKGqdfBZ1f8yBErMndcIY3W5DkLBKL8MYCT00ROmrVhmD'
-
-# Stripeのシークレットキー
-STRIPE_SECRET_KEY = 'sk_test_51OyviwJceKdZdZLmH9e9tBB2UP6l5WMVBDeZPCF0KerWiEclbJDcsD4wYm5t2H7z4oWqRcITIXbu60hCykMh0NkG00i5WCPJnd'
-
-# StripeのWebhookのシークレットキー
-STRIPE_WEBHOOK_SECRET = 'whsec_052a7a8a9755ceaf148d120fe455213e5ce53232b892ec79a0c1fe97106dadb2'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
