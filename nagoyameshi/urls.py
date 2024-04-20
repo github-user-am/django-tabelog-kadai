@@ -4,9 +4,6 @@ from nagoyameshi import views
 from django.conf.urls import include #includeのインポート
 from django.conf import settings
 from django.conf.urls.static import static
-from nagoyameshi-v1 import views
-
-handler500 = views.my_customized_server_error
 
 urlpatterns = [
     path('admin/', admin.site.urls),
