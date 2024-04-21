@@ -1714,6 +1714,12 @@ def SaveSubscriber(customer, stripe_id, subscription_id):
 def paysuccess(request):
     # base表示用カテゴリ
     categories = Category.objects.all()
+    # userを取得
+    customer = CustomUser.objects.get(id=request.user.id)
+    stripe_id = "dummy_id_12345"
+    subscription_id = "1"
+    SaveSubscriber(customer, stripe_id, subscription_id)
+    
     return render(request,"pay_success.html", context={
         'message': '決済が完了しました!',
         'text': 'TOP',
