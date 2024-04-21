@@ -1597,6 +1597,7 @@ def create_checkout_session(request, pk):
     categories = Category.objects.all()
     if request.method == "POST":
         user_id = request.user.id
+        customer = CustomUser.obejcsts.get(id=user_id)
         # 既に有料会員だったら
         if Subscriber.objects.filter(user_id=user_id):
             return render(request, 'pay_success.html', context={
@@ -1635,11 +1636,6 @@ def create_checkout_session(request, pk):
                 success_url=YOUR_DOMAIN + '/pay_success/',        # 決済成功時のリダイレクト先
                 cancel_url=YOUR_DOMAIN + '/pay_cancel/',          # 決済キャンセル時のリダイレクト先
             )
-            # 本来はwebhook側で処理するが、ビジネス登録しないため処理を変更。userオブジェクト、stripeid、subscriptionidを関数に渡す
-            # SaveSubscriber(customer, stripe_id, subscription_id)
-            customer = CustomUser.obejcsts.get(id=user_id)
-            stripe_id = "dummy_id_12345"
-            SaveSubscriber(customer, stripe_id, pk)
             return redirect(checkout_session.url)
     else:
         raise Http404
@@ -1716,9 +1712,15 @@ def SaveSubscriber(customer, stripe_id, subscription_id):
     return saveData
 
 ### 決済完了画面 ###
+@login_required
 def paysuccess(request):
     # base表示用カテゴリ
     categories = Category.objects.all()
+    # requestしたユーザー情報を取得
+    customer = CustomUser.objects.get(id=request.user.id)
+    stripe_id = "dummy_id_12345"
+    subscription_id = 1
+    SaveSubscriber(customer, stripe_id, subscription_id)
     return render(request,"pay_success.html", context={
         'message': '決済が完了しました!',
         'text': 'TOP',
