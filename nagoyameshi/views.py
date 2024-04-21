@@ -1597,7 +1597,6 @@ def create_checkout_session(request, pk):
     categories = Category.objects.all()
     if request.method == "POST":
         user_id = request.user.id
-        customer = CustomUser.obejcsts.get(id=user_id)
         # 既に有料会員だったら
         if Subscriber.objects.filter(user_id=user_id):
             return render(request, 'pay_success.html', context={
@@ -1712,7 +1711,6 @@ def SaveSubscriber(customer, stripe_id, subscription_id):
     return saveData
 
 ### 決済完了画面 ###
-@login_required
 def paysuccess(request):
     # base表示用カテゴリ
     categories = Category.objects.all()
