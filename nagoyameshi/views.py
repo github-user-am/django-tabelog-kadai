@@ -1635,6 +1635,10 @@ def create_checkout_session(request, pk):
                 success_url=YOUR_DOMAIN + '/pay_success/',        # 決済成功時のリダイレクト先
                 cancel_url=YOUR_DOMAIN + '/pay_cancel/',          # 決済キャンセル時のリダイレクト先
             )
+            # 本来はwebhook側で処理するが、ビジネス登録しないため処理を変更。userオブジェクト、stripeid、subscriptionidを関数に渡す
+            # SaveSubscriber(customer, stripe_id, subscription_id)
+            stripe_id = "1234567"
+            SaveSubscriber(request.user.id, stripe_id, pk)
             return redirect(checkout_session.url)
     else:
         raise Http404
@@ -1733,6 +1737,42 @@ def paycancel(request):
     })
 
 ### 有料会員登録の解約（サブスクリプション停止） ###
+# @csrf_exempt
+# @login_required
+# def cancel_subscription_session(request):
+    # base表示用カテゴリ
+    # categories = Category.objects.all()
+    # if request.method == 'POST':
+        # ユーザーIDを取得
+        # user_id = request.user.id
+        # 有料会員かどうかチェック
+    #     if Subscriber.objects.filter(user_id=user_id):
+    #         customer = Subscriber.objects.get(user_id=user_id)
+    #         subscription_id = request.POST.get('subscription_id')
+    #         session = stripe.Subscription.modify(
+    #             subscription_id,
+    #             cancel_at_period_end=True,
+    #             metadata={
+    #                 'customer_id': customer.stripe_id,
+    #                 'meta_flag': 'cancel_scheduled',
+    #             }
+    #         )
+    #         return render(request, 'success.html', context={
+    #             'categories': categories,
+    #             'message': '有料会員登録を解約しました。',
+    #             'url': reverse('mypage'),
+    #             'text': 'マイページ',
+    #         })
+    #     else:
+    #         return render(request, 'cancel.html', context={
+    #             'categories': categories,
+    #             'message': '有料会員ではありません。',
+    #             'url': reverse('mypage'),
+    #             'text': 'マイページ',
+    #         })
+    # else:
+    #     raise Http404
+
 @csrf_exempt
 @login_required
 def cancel_subscription_session(request):
@@ -1745,14 +1785,7 @@ def cancel_subscription_session(request):
         if Subscriber.objects.filter(user_id=user_id):
             customer = Subscriber.objects.get(user_id=user_id)
             subscription_id = request.POST.get('subscription_id')
-            session = stripe.Subscription.modify(
-                subscription_id,
-                cancel_at_period_end=True,
-                metadata={
-                    'customer_id': customer.stripe_id,
-                    'meta_flag': 'cancel_scheduled',
-                }
-            )
+            cancel_subscribe(user_id)
             return render(request, 'success.html', context={
                 'categories': categories,
                 'message': '有料会員登録を解約しました。',
@@ -1770,11 +1803,19 @@ def cancel_subscription_session(request):
         raise Http404
 
 ### 有料会員登録の解約 ###
-def cancel_subscribe(stripe_id):
+# def cancel_subscribe(stripe_id):
+    # base表示用カテゴリ
+    # categories = Category.objects.all()
+    # DBから対象のデータを削除
+    # subscribe = Subscriber.objects.get(stripe_id=stripe_id)
+    # subscribe.delete()
+    # return HttpResponse(status=200)
+
+def cancel_subscribe(user_id):
     # base表示用カテゴリ
     categories = Category.objects.all()
-    # DBから対象のデータを削除
-    subscribe = Subscriber.objects.get(stripe_id=stripe_id)
+    # # DBから対象のデータを削除
+    subscribe = Subscriber.objects.get(user_id=user_id)
     subscribe.delete()
     return HttpResponse(status=200)
 
