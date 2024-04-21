@@ -1216,7 +1216,7 @@ def update_category(request, pk):
                 form.save()
                 return render(request, 'admin_success.html', context={
                 'message': 'カテゴリが更新されました。',
-                'url': reverse('list_categories.html'),
+                'url': reverse('list_categories'),
                 'text': 'カテゴリ一覧',
             })
         else:
