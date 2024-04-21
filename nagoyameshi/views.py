@@ -1641,52 +1641,52 @@ def create_checkout_session(request, pk):
         raise Http404
 
 ### Event Handler ###
-# @csrf_exempt
-# def stripe_webhook(request):
+@csrf_exempt
+def stripe_webhook(request):
     # サーバーのイベントログからの出力ステートメント
-    # payload = request.body
-    # sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    # event = None
-    # try:
-    #     event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
-    # except ValueError as e:
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+    except ValueError as e:
         # 有効でないpayload
-    #     return HttpResponse(status=400)
-    # except stripe.error.SignatureVerificationError as e:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
         # 有効でない署名
-        # return HttpResponse(status=400)
+        return HttpResponse(status=400)
     
     # checkout.session.completedイベント検知
-    # if event['type'] == 'checkout.session.completed':
-    #     session = event['data']['object']
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
 
         # イベント情報取得
-        # user_id = session.get('client_reference_id')
-        # customer = CustomUser.objects.get(id=user_id)
-        # stripe_id = session.get('customer')
-        # subscription_id = session.get('subscription')
-        # stripe_product_id = session['metadata']['stripe_product_id'] # 購入商品情報
-        # product = SubscriptionProduct.objects.get(stripe_product_id=stripe_product_id)
-        # product_amount = session['amount_total'] # 購入金額（手数料抜き）
+        user_id = session.get('client_reference_id')
+        customer = CustomUser.objects.get(id=user_id)
+        stripe_id = session.get('customer')
+        subscription_id = session.get('subscription')
+        stripe_product_id = session['metadata']['stripe_product_id'] # 購入商品情報
+        product = SubscriptionProduct.objects.get(stripe_product_id=stripe_product_id)
+        product_amount = session['amount_total'] # 購入金額（手数料抜き）
 
         # DBに結果を保存
-        # SaveTransaction(customer, product, product_amount)
-        # SaveSubscriber(customer, stripe_id, subscription_id)
+        SaveTransaction(customer, product, product_amount)
+        SaveSubscriber(customer, stripe_id, subscription_id)
     
     # サブスクリプション停止時のイベント検知
-    # elif event['type'] == 'customer.subscription.updated':
-    #     session = event['data']['object']
+    elif event['type'] == 'customer.subscription.updated':
+        session = event['data']['object']
 
-    #     print(session)
+        print(session)
 
         # イベント情報取得
-        # stripe_id = session.get('customer')
+        stripe_id = session.get('customer')
 
         # cancel_subscribe関数に情報を渡す
-        # cancel_subscribe(stripe_id)
+        cancel_subscribe(stripe_id)
 
-    # Passed signature verification
-    # return HttpResponse(status=200)
+    Passed signature verification
+    return HttpResponse(status=200)
 
 ### Transactionモデルへの保存 ###
 def SaveTransaction(customer, product, product_amount):
