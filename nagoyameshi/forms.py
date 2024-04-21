@@ -272,4 +272,9 @@ class UpdateRestaurantForm(forms.ModelForm):
             'seat_number',
             'phone_number',
         )
-    
+
+### Update Category Form ###
+class UpdateCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('category_name',)

@@ -36,6 +36,7 @@ urlpatterns = [
     path('delete_restaurant/<int:restaurant_id>', views.delete_restaurant, name='delete_restaurant'),
     path('list_categories/', views.list_categories, name='list_categories'),
     path('create_category', views.create_category, name='create_category'),
+    path('update_category/<int:pk>', views.update_category, name='update_category'),
     path('list_managed_restaurant_review/<int:restaurant_id>', views.list_managed_restaurant_review, name='list_managed_restaurant_review'),
     path('list_managed_restaurant_reserve/<int:restaurant_id>', views.list_managed_restaurant_reserve, name='list_managed_restaurant_reserve'),
     path('list_managed_account/', views.list_managed_account, name='list_managed_account'),

@@ -20,6 +20,7 @@
             <tr>
                 <td>{{ category.category_name }}</td>
                 <td>{{ category.create_at | date:"Y/m/d H:i" }}</td>
+                <td><a href="{% url 'update_category' pk=category.id %}" class="fnt_blue">編集</a></td>
             </tr>
             {% endfor %}
         </table>

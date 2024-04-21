@@ -1201,6 +1201,35 @@ def create_category(request):
             'categories': categories,
         })
 
+### カテゴリ編集 ###
+@login_required
+def update_category(request, pk):
+    category = Category.objects.get(id=pk)
+    form = forms.UpdateCategoryForm(instance=category)
+
+    if request.method == 'POST':
+        # サイト管理者かどうかチェック
+        user = CustomUser.objects.get(id=request.user.id)
+        if user.is_superuser:
+            form = forms.UpdateCategoryForm(request.POST, instance=category)
+            if form.is_valid():
+                form.save()
+                return render(request, 'admin_success.html', context={
+                'message': 'カテゴリが更新されました。',
+                'url': reverse('list_categories.html'),
+                'text': 'カテゴリ一覧',
+            })
+        else:
+           return render(request, 'access_denied.html', context={
+                'message': 'この操作はサイト管理者専用です。',
+                'url': reverse('admin_top'),
+                'text': '管理者トップ',
+            }) 
+    else:
+        return render(request, 'update_category.html', context={
+            'form': form,
+        })
+
 ### 管理店舗のレビュー一覧（店舗管理者専用） ###
 @login_required
 def list_managed_restaurant_review(request, restaurant_id):
@@ -1738,7 +1767,7 @@ def paycancel(request):
         'categories': categories,
     })
 
-### 有料会員登録の解約（サブスクリプション停止） ###
+### 有料会員登録の解約（サブスクリプション停止）stripe webhook用 ###
 # @csrf_exempt
 # @login_required
 # def cancel_subscription_session(request):
