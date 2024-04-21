@@ -1684,7 +1684,7 @@ def stripe_webhook(request):
         # cancel_subscribe関数に情報を渡す
         cancel_subscribe(stripe_id)
 
-    Passed signature verification
+    # Passed signature verification
     return HttpResponse(status=200)
 
 ### Transactionモデルへの保存 ###
