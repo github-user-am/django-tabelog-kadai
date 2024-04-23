@@ -13,6 +13,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse, Http404, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
+from django.utils.timezone import make_naive
 from django.db import connection
 from django.conf import settings
 import datetime
@@ -882,20 +883,37 @@ def list_reservation(request):
 def cancel_reservation(request, restaurant_id, reservation_id):
     # base表示用カテゴリ
     categories = Category.objects.all()
-    # ユーザー、レストラン、予約を取得
+    # ユーザーを取得
     user = CustomUser.objects.get(id=request.user.id)
     # 有料会員かどうかチェック
     if Subscriber.objects.filter(user_id=request.user.id):
+        # レストラン、予約を取得
         restaurant = Restaurant.objects.get(id=restaurant_id)
         reservation = Reservation.objects.get(id=reservation_id)
+        # 現在時刻と予約時刻を取得
+        dt_now = datetime.datetime.now()
+        # DB上はUTCなので、時差分の9時間をプラス
+        reservation_time = reservation.reservation_start + datetime.timedelta(hours=9)
+        # 時刻差を計算
+        time_gap = make_naive(reservation_time) - dt_now
+
         if request.method == 'POST':
-            reservation.delete()
-            return render(request, 'success.html', context={
-                'categories': categories,
-                'message': '予約をキャンセルしました!',
-                'url': reverse('list_reservation'),
-                'text': '予約一覧',
-            })
+            # 予約日時から24時間以内なら予約キャンセルOK、それ以外は不可
+            if time_gap > datetime.timedelta(hours=24):
+                reservation.delete()
+                return render(request, 'success.html', context={
+                    'categories': categories,
+                    'message': '予約をキャンセルしました!',
+                    'url': reverse('list_reservation'),
+                    'text': '予約一覧',
+                })
+            else:
+                return render(request, 'cancel.html', context={
+                    'categories': categories,
+                    'message': '申し訳ございません。24時間以内の予約、または過去の予約はキャンセルできません。',
+                    'url': reverse('list_reservation'),
+                    'text': '予約一覧',
+                })
         else:
             return render(request, 'cancel_reservation.html', context={
                     'categories': categories,
